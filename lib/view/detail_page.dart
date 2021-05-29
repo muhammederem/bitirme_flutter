@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_deneme/model/sensor.dart';
+import 'package:flutter_deneme/model/sensor_model.dart';
 
 class DetailPage extends StatefulWidget {
   Sensor sensor = new Sensor();
@@ -7,17 +8,17 @@ class DetailPage extends StatefulWidget {
   
 
   @override
-  _DetailPageState createState() => _DetailPageState(sensor);
+  _DetailPageState createState() => _DetailPageState();
 }
 
 class _DetailPageState extends State<DetailPage> {
-   Sensor sensor;
-  _DetailPageState(this.sensor);
+   
+  _DetailPageState();
   @override
   Widget build(BuildContext context) {
     return Container(
        color: Colors.greenAccent,
-       child: TextButton(child: Text(sensor.cho2.toString()),onPressed: (){
+       child: TextButton(child: Text(widget.sensor.cho2.toString()),onPressed: (){
          Navigator.pop(context);
        },),
     );

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_deneme/home.dart';
+import 'package:flutter_deneme/model/sensor_model.dart';
+import 'package:flutter_deneme/view/prev_page.dart';
 import 'package:flutter_deneme/view/tabBar.dart';
 
 void main() {

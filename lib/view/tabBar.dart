@@ -17,72 +17,47 @@ class _RoomSettingsChooserPageState extends State<RoomSettingsChooserPage>
   @override
   void initState() {
     super.initState();
-    _controller = new TabController(length: 10, vsync: this);
+    _controller = new TabController(length: 9, vsync: this);
     _index = 0;
   }
 
-  List<String> sensors = [
-    "1",
-    "2",
-    "3",
-    "1",
-    "2",
-    "3",
-    "1",
-    "2",
-    "3",
-    "1",
-  ];
-  List<Color> colors = [
-    Colors.white,
-    Colors.pinkAccent,
-    Colors.yellowAccent,
-    Colors.white,
-    Colors.pinkAccent,
-    Colors.yellowAccent,
-    Colors.white,
-    Colors.pinkAccent,
-    Colors.yellowAccent,
-    Colors.orange
-  ];
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        resizeToAvoidBottomInset: true,
-        appBar: new AppBar(
-          toolbarHeight: 48,
-          bottom: new TabBar(isScrollable: true,controller: _controller, tabs: <Tab>[
-            new Tab(text: "NEW"),
-            new Tab(text: "HOTELS"),
-            new Tab(text: "FOOD"),
-            new Tab(text: "FUN"),
-            new Tab(text: "NEW"),
-            new Tab(text: "HOTELS"),
-            new Tab(text: "FOOD"),
-            new Tab(text: "FUN"),
-            new Tab(text: "NEW"),
-            new Tab(text: "HOTELS"),
-          ]),
-        ),
-        body: new TabBarView(
-
-          controller: _controller,
-          children: <Widget>[
-            PreviewPage(sensors[1]),
-            PreviewPage(sensors[2]),
-            PreviewPage(sensors[1]),
-            PreviewPage(sensors[2]),
-            PreviewPage(sensors[1]),
-            PreviewPage(sensors[2]),
-            PreviewPage(sensors[1]),
-            PreviewPage(sensors[1]),
-            PreviewPage(sensors[2]),
-            PreviewPage(sensors[2]),
-          ],
-        ),
-      )
-    );
+        length: 9,
+        child: Scaffold(
+          resizeToAvoidBottomInset: true,
+          appBar: new AppBar(
+            toolbarHeight: 48,
+            bottom: new TabBar(
+                isScrollable: true,
+                controller: _controller,
+                tabs: <Tab>[
+                  new Tab(text: "Temp"),
+                  new Tab(text: "Humidity"),
+                  new Tab(text: "PM2.5"),
+                  new Tab(text: "CO2"),
+                  new Tab(text: "VOC"),
+                  new Tab(text: "CHO2"),
+                  new Tab(text: "CO"),
+                  new Tab(text: "O3"),
+                  new Tab(text: "NO2"),
+                ]),
+          ),
+          body: new TabBarView(
+            controller: _controller,
+            children: <Widget>[
+              VeriGoster("temp"),
+              VeriGoster("humidity"),
+              VeriGoster("pm2_5"),
+              VeriGoster("co2"),
+              VeriGoster("voc"),
+              VeriGoster("cho2"),
+              VeriGoster("co"),
+              VeriGoster("o3"),
+              VeriGoster("no2"),
+            ],
+          ),
+        ));
   }
 }

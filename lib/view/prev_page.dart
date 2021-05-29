@@ -1,116 +1,133 @@
-
+import 'package:circular_usage_indicator/circular_usage_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_deneme/model/sensor.dart';
+
+import 'package:flutter_deneme/model/sensor_model.dart';
 import 'package:flutter_deneme/view/detail_page.dart';
-import 'package:http/http.dart' as http;
 
-class PreviewPage extends StatefulWidget {
-  String sensor_name;
+class VeriGoster extends StatefulWidget {
+  final String sensor;
 
-  PreviewPage(this.sensor_name);
+  VeriGoster(this.sensor);
 
   @override
-  _PreviewPageState createState() => _PreviewPageState(sensor_name);
+  _VeriGosterState createState() => _VeriGosterState();
 }
 
-class _PreviewPageState extends State<PreviewPage> {
-   String sensor_name;
-  List<String> sensors = [
-"cho2",
-  "co" ,
-  "co2", 
-  "humidity",
-  "no2", 
-  "o3",
-  "pm10", 
-  "pm1_0",
-  "pm2_5",
-  "temprature",
-  "time", 
-  "voc"
-  ];
-  Sensor sensor;
-  Uri myUri = Uri.parse("http://159.65.115.118/api/data");
+class _VeriGosterState extends State<VeriGoster> {
+  Future<Sensor> futureSensor;
 
-  _PreviewPageState(this.sensor_name);
+  @override
+  void initState() {
+    super.initState();
+    futureSensor = fetchSensor();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: fetchSensor(myUri),
-      builder:(context,snapshot){
-        if (snapshot.hasError) print(snapshot.error);
-          return snapshot.hasData
-              ?
-            Container(
+    return FutureBuilder<Sensor>(
+      future: futureSensor,
+      builder: (context, snapshot) {
+        var data;
+        var limit;
+        // dynamic x = snapshot.data;
+        if (snapshot.hasData) {
+          if (widget.sensor == "pm2_5") {
+            data = snapshot.data.pm2_5;
+            limit = 1000;
+          } else if (widget.sensor == "co2") {
+            data = snapshot.data.co2;
+            limit = 5000;
+          } else if (widget.sensor == "voc") {
+            data = snapshot.data.voc;
+            limit = 3;
+          } else if (widget.sensor == "temp") {
+            data = snapshot.data.temp;
+            limit = 65;
+          } else if (widget.sensor == "cho2") {
+            data = snapshot.data.cho2;
+            limit = 6.250;
+          } else if (widget.sensor == "co") {
+            data = snapshot.data.co;
+            limit = 500;
+          } else if (widget.sensor == "o3") {
+            data = snapshot.data.o3;
+            limit = 10;
+          } else if (widget.sensor == "no2") {
+            data = snapshot.data.no2;
+            limit = 9.9;
+          } else if (widget.sensor == "humidity") {
+            data = snapshot.data.humidity;
+            limit = 100;
+          }
+          double percentage =(double.parse(data)/limit)*100;
+         double progress= percentage/100;
+          return Container(
             decoration: BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage("https://cdn.wallpapersafari.com/55/58/Mt3QVP.gif"),
-              fit: BoxFit.cover,
-            ),
-          ),
-      
-          child: Container(
-            color: Colors.transparent,
-              child: Column(
-            children: [
-              Padding(
-                  padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height / 6)),
-              // CircularUsageIndicator(
-              //   elevation: 15.0,
-              //   backgroundColor: Colors.blueAccent,
-              //   borderColor: Colors.transparent,
-              //   progressValue: snapshot.data.last.sensor_name, // progress value from 0.0 to 1.0
-              //   progressLabelStyle: TextStyle(
-              //     // change style for percentage text.
-              //     fontSize: 60.0,
-              //     color: Colors.transparent,
-              //     fontWeight: FontWeight.w400,
-              //   ),
-              //   progressColor: Color(0xFF023A5C),
-              //   size: 300,
-              //   borderWidth: 1.0,
-              //   // comment children if you the percentage to show up as a label
-              //   children: [
-              //     // if there are children widgets then the percentage label will not show up
-              //     Row(
-              //       mainAxisAlignment: MainAxisAlignment.center,
-              //       crossAxisAlignment: CrossAxisAlignment.baseline,
-              //       textBaseline: TextBaseline.alphabetic,
-              //       children: [
-              //         Text(
-              //           sensor_name,
-              //           style: TextStyle(
-              //             color: Colors.white,
-              //             fontSize: 50.0,
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //     Text(
-              //       sensor_name,
-              //       style: TextStyle(
-              //         color: Colors.white,
-              //         fontSize: 25.0,
-              //       ),
-              //     ),
-              //   ],
-              // ),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => DetailPage(sensor)));
-                },
-                child: Text(
-                  sensor_name,
-                  style: TextStyle(fontSize: 20),
-                ),
+              image: DecorationImage(
+                image: NetworkImage(
+                    "https://cdn.wallpapersafari.com/55/58/Mt3QVP.gif"),
+                fit: BoxFit.cover,
               ),
-            ],
-          )))
-    :Container(child: CircularProgressIndicator() );}
-      
-           
-  );
+            ),
+            child: Column(
+              children: [
+                Padding(
+                    padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height / 6)),
+                CircularUsageIndicator(
+                  elevation: percentage*2,
+                  backgroundColor: Colors.blueAccent,
+                  borderColor: Colors.transparent,
+                  progressValue:progress
+                      , // progress value from 0.0 to 1.0
+                  progressLabelStyle: TextStyle(
+                    // change style for percentage text.
+                    fontSize: 60.0,
+                    color: Colors.transparent,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  progressColor: Color(0xFF023A5C),
+                  size: 300,
+                  borderWidth: 1.0,
+                  // comment children if you the percentage to show up as a label
+                  children: [
+                    // if there are children widgets then the percentage label will not show up
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.alphabetic,
+                      children: [
+                        Text(
+                          widget.sensor.toUpperCase(),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 50.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Text(
+                      "% $percentage",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 25.0,
+                      ),
+                    ),
+                  ],
+                ),
+                Text(data),
+                Text(widget.sensor.toUpperCase()),
+                Text(limit.toString())
+              ],
+            ),
+          );
+        } else if (snapshot.hasError) {
+          return Text("${snapshot.error}");
+        }
+
+        // By default, show a loading spinner.
+        return CircularProgressIndicator();
+      },
+    );
   }
 }

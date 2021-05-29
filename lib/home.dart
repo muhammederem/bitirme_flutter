@@ -18,42 +18,17 @@ class _BottomNavigationState extends State<BottomNavigation> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
   static List<Widget> _widgetOptions = <Widget>[
-    PreviewPage(sensor ),
-    PreviewPage(sensor),
-    PreviewPage(sensor),
-    PreviewPage(sensor),
-    PreviewPage(sensor),
-    PreviewPage(sensor),
-    PreviewPage(sensor),
-    PreviewPage(sensor),
-    PreviewPage(sensor,),
-    PreviewPage(sensor)
+    VeriGoster("temp"),
+    VeriGoster("humidity"),
+    VeriGoster("pm2_5"),
+    VeriGoster("co2"),
+    VeriGoster("voc"),
+    VeriGoster("cho2"),
+    VeriGoster("co"),
+    VeriGoster("o3"),
+    VeriGoster("no2"),
   ];
 
-  List<Color> colorsx = [
-    Color(0xfffdcbdc),
-    Color(0xffb8e3fa),
-    Color(0xffe8fc6c),
-    Color(0xffb2fba0),
-    Color(0xffc6d1f9),
-    Color(0xffe8fc6c),
-    Color(0xfffdcbdc),
-    Color(0xffb8e3fa),
-    Color(0xffe8fc6c),
-    Color(0xffb2fba0),
-  ];
-  List<String> sensors = [
-    "Co2",
-    "O3",
-    "C12H6",
-    "Humadity",
-    "Temp",
-    "CNaH",
-    "Falan",
-    "Filan",
-    "Deneme",
-    "Last"
-  ];
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -70,62 +45,56 @@ class _BottomNavigationState extends State<BottomNavigation> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Home',
+            label: 'Temperature',
             backgroundColor: Colors.red,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.offline_bolt),
-            label: 'İki',
+            label: 'Humidity',
             backgroundColor: Colors.red,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: '3',
+            label: 'PM2.5',
             backgroundColor: Colors.red,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.offline_bolt),
-            label: '4',
+            label: 'CO2',
             backgroundColor: Colors.red,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: '5',
+            label: 'VOC',
             backgroundColor: Colors.red,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.offline_bolt),
-            label: '6',
+            label: 'CHO2',
             backgroundColor: Colors.red,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: '7',
+            label: 'CO',
             backgroundColor: Colors.red,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.offline_bolt),
-            label: '8',
+            label: 'O3',
             backgroundColor: Colors.red,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: '9',
+            label: 'NO2',
             backgroundColor: Colors.red,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.offline_bolt),
-            label: '10',
-            backgroundColor: Colors.red,
-          ),
+
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.amber[800],
         onTap: (int index) {
           setState(() {
             _selectedIndex = index;
-            sensor = sensors[index];
-            color = colorsx[index];
           });
         },
       ),
