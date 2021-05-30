@@ -39,11 +39,11 @@ class _VeriGosterState extends State<VeriGoster> {
           } else if (widget.sensor == "co2") {
             data = snapshot.data.co2;
             limit = 5000;
-            birim=" ppm";
+            birim=" PPM";
           } else if (widget.sensor == "voc") {
             data = snapshot.data.voc;
             limit = 3;
-            birim="  grade";
+            birim="  Grade";
           } else if (widget.sensor == "temp") {
             data = snapshot.data.temp;
             limit = 65;
@@ -55,15 +55,15 @@ class _VeriGosterState extends State<VeriGoster> {
           } else if (widget.sensor == "co") {
             data = snapshot.data.co;
             limit = 500;
-            birim="  ppm";
+            birim="  PPM";
           } else if (widget.sensor == "o3") {
             data = snapshot.data.o3;
             limit = 10;
-            birim=" ppm";
+            birim=" PPM";
           } else if (widget.sensor == "no2") {
             data = snapshot.data.no2;
             limit = 9.9;
-            birim=" ppm";
+            birim=" PPM";
           } else if (widget.sensor == "humidity") {
             data = snapshot.data.humidity;
             limit = 100;
