@@ -5,20 +5,21 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
-Future<Sensor> fetchSensor() async {
-  final response =
-      await http.get(Uri.parse('http://159.65.115.118/api/datas'));
+// Future<List<Sensor>> fetchSensor() async {
+//   final response =
+//       await http.get(Uri.parse('http://159.65.115.118:8888/api/data/fstats/1'));
 
-  if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    return Sensor.fromJson(jsonDecode(response.body));
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to load album');
-  }
-}
+//   if (response.statusCode == 200) {
+//     // If the server did return a 200 OK response,
+//     // then parse the JSON.
+//     return Sensor.fromJson(jsonDecode(response.body));
+//   } else {
+//     // If the server did not return a 200 OK response,
+//     // then throw an exception.
+//     throw Exception('Failed to load album');
+//   }
+// }
+
 
 class Sensor {
 
@@ -31,20 +32,34 @@ class Sensor {
 
   factory Sensor.fromJson(Map<String, dynamic> json) {
     return Sensor(
-        pm1_0: json['pm1_0'] ,
-        pm2_5: json['pm2_5'] ,
-        pm10: json['pm10'] ,
-        co2: json['co2'] ,
-        voc: json['voc'] ,
-        temp: json['temp'] ,
-        humidity: json['humidity'] ,
-        cho2: json['cho2'] ,
-        co: json['co'] ,
-        o3: json['o3'] ,
-        no2: json['no2'] ,
+        pm1_0: json['PM1_0'] ,
+        pm2_5: json['PM2_5'] ,
+        pm10: json['PM10'] ,
+        co2: json['C02'] ,
+        voc: json['VOC'] ,
+        temp: json['TEMP'] ,
+        humidity: json['HUM'] ,
+        cho2: json['CHO2'] ,
+        co: json['CO'] ,
+        o3: json['O3'] ,
+        no2: json['NO2'] ,
         time: json['time']);
   }
 }
 
 
 
+Future<List<Sensor>> fetchSensor( String link) async {
+  final response = await http.get(
+      link);
+
+  // Use the compute function to run parsePhotos in a separate isolate.
+  return compute(parseSensor, response.body);
+}
+
+// A function that converts a response body into a List<Photo>.
+List<Sensor> parseSensor(String responseBody) {
+  final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
+
+  return parsed.map<Sensor>((json) => Sensor.fromJson(json)).toList();
+}

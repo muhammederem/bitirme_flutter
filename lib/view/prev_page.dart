@@ -14,17 +14,17 @@ class VeriGoster extends StatefulWidget {
 }
 
 class _VeriGosterState extends State<VeriGoster> {
-  Future<Sensor> futureSensor;
+  Future<List<Sensor>> futureSensor;
 
   @override
   void initState() {
     super.initState();
-    futureSensor = fetchSensor();
+    futureSensor = fetchSensor('http://159.65.115.118:8888/api/data/fstats/1');
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Sensor>(
+    return FutureBuilder<List<Sensor>>(
       future: futureSensor,
       builder: (context, snapshot) {
         var data;
@@ -33,39 +33,39 @@ class _VeriGosterState extends State<VeriGoster> {
         // dynamic x = snapshot.data;
         if (snapshot.hasData) {
           if (widget.sensor == "pm2_5") {
-            data = snapshot.data.pm2_5;
+            data = snapshot.data[0].pm2_5;
             limit = 1000;
             birim="μg/m3";
           } else if (widget.sensor == "co2") {
-            data = snapshot.data.co2;
+            data = snapshot.data[0].co2;
             limit = 5000;
             birim=" PPM";
           } else if (widget.sensor == "voc") {
-            data = snapshot.data.voc;
+            data = snapshot.data[0].voc;
             limit = 3;
             birim="  Grade";
           } else if (widget.sensor == "temp") {
-            data = snapshot.data.temp;
+            data = snapshot.data[0].temp;
             limit = 65;
             birim=" ℃";
           } else if (widget.sensor == "cho2") {
-            data = snapshot.data.cho2;
+            data = snapshot.data[0].cho2;
             limit = 6.250;
             birim="  mg/m3";
           } else if (widget.sensor == "co") {
-            data = snapshot.data.co;
+            data = snapshot.data[0].co;
             limit = 500;
             birim="  PPM";
           } else if (widget.sensor == "o3") {
-            data = snapshot.data.o3;
+            data = snapshot.data[0].o3;
             limit = 10;
             birim=" PPM";
           } else if (widget.sensor == "no2") {
-            data = snapshot.data.no2;
+            data = snapshot.data[0].no2;
             limit = 9.9;
             birim=" PPM";
           } else if (widget.sensor == "humidity") {
-            data = snapshot.data.humidity;
+            data = snapshot.data[0].humidity;
             limit = 100;
             birim=" RH";
           }
@@ -131,6 +131,12 @@ class _VeriGosterState extends State<VeriGoster> {
                       ),)
                   ],
                 ),
+                TextButton(onPressed: (){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => DetailPage(widget.sensor)),
+                    );
+                },child: Text("Go to Detail"),)
 
               ],
             ),
