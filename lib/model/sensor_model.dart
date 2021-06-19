@@ -49,7 +49,7 @@ class Sensor {
 
 
 
-Future<List<Sensor>> fetchSensor( String link) async {
+Future<List<Sensor>> fetchSensor(String link) async {
   final response = await http.get(
       link);
 

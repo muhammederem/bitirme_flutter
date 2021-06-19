@@ -1,5 +1,6 @@
 import 'package:circular_usage_indicator/circular_usage_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:flutter_deneme/model/sensor_model.dart';
 import 'package:flutter_deneme/view/detail_page.dart';
@@ -19,7 +20,18 @@ class _VeriGosterState extends State<VeriGoster> {
   @override
   void initState() {
     super.initState();
+ 
     futureSensor = fetchSensor('http://159.65.115.118:8888/api/data/fstats/1');
+  }
+   @override
+  dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    super.dispose();
   }
 
   @override
