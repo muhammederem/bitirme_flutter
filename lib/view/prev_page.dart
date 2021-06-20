@@ -20,14 +20,16 @@ class _VeriGosterState extends State<VeriGoster> {
   @override
   void initState() {
     super.initState();
- 
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     futureSensor = fetchSensor('http://159.65.115.118:8888/api/data/fstats/1');
   }
-   @override
+
+  @override
   dispose() {
     SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeRight,
-      DeviceOrientation.landscapeLeft,
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
@@ -47,43 +49,43 @@ class _VeriGosterState extends State<VeriGoster> {
           if (widget.sensor == "pm2_5") {
             data = snapshot.data[0].pm2_5;
             limit = 1000;
-            birim="μg/m3";
+            birim = "μg/m3";
           } else if (widget.sensor == "co2") {
             data = snapshot.data[0].co2;
             limit = 5000;
-            birim=" PPM";
+            birim = " PPM";
           } else if (widget.sensor == "voc") {
             data = snapshot.data[0].voc;
             limit = 3;
-            birim="  Grade";
+            birim = "  Grade";
           } else if (widget.sensor == "temp") {
             data = snapshot.data[0].temp;
             limit = 65;
-            birim=" ℃";
+            birim = " ℃";
           } else if (widget.sensor == "cho2") {
             data = snapshot.data[0].cho2;
             limit = 6.250;
-            birim="  mg/m3";
+            birim = "  mg/m3";
           } else if (widget.sensor == "co") {
             data = snapshot.data[0].co;
             limit = 500;
-            birim="  PPM";
+            birim = "  PPM";
           } else if (widget.sensor == "o3") {
             data = snapshot.data[0].o3;
             limit = 10;
-            birim=" PPM";
+            birim = " PPM";
           } else if (widget.sensor == "no2") {
             data = snapshot.data[0].no2;
             limit = 9.9;
-            birim=" PPM";
+            birim = " PPM";
           } else if (widget.sensor == "humidity") {
             data = snapshot.data[0].humidity;
             limit = 100;
-            birim=" RH";
+            birim = " RH";
           }
-          double percentage =(double.parse(data)/limit)*100;
+          double percentage = (double.parse(data) / limit) * 100;
           percentage = percentage.roundToDouble();
-         double progress= percentage/100;
+          double progress = percentage / 100;
           return Container(
             decoration: BoxDecoration(
               image: DecorationImage(
@@ -98,11 +100,10 @@ class _VeriGosterState extends State<VeriGoster> {
                     padding: EdgeInsets.only(
                         top: MediaQuery.of(context).size.height / 6)),
                 CircularUsageIndicator(
-                  elevation: percentage*2,
+                  elevation: percentage * 2,
                   backgroundColor: Colors.blueAccent,
                   borderColor: Colors.transparent,
-                  progressValue:progress
-                      , // progress value from 0.0 to 1.0
+                  progressValue: progress, // progress value from 0.0 to 1.0
                   progressLabelStyle: TextStyle(
                     // change style for percentage text.
                     fontSize: 60.0,
@@ -136,20 +137,25 @@ class _VeriGosterState extends State<VeriGoster> {
                         fontSize: 25.0,
                       ),
                     ),
-                    Text(data+" "+birim,
-                    style: TextStyle(
+                    Text(
+                      data + " " + birim,
+                      style: TextStyle(
                         color: Colors.white,
                         fontSize: 25.0,
-                      ),)
+                      ),
+                    )
                   ],
                 ),
-                TextButton(onPressed: (){
-                  Navigator.push(
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => DetailPage(widget.sensor)),
+                      MaterialPageRoute(
+                          builder: (context) => DetailPage(widget.sensor)),
                     );
-                },child: Text("Go to Detail"),)
-
+                  },
+                  child: Text("Go to Detail"),
+                )
               ],
             ),
           );
@@ -159,15 +165,18 @@ class _VeriGosterState extends State<VeriGoster> {
 
         // By default, show a loading spinner.
         return Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(
-                    "https://cdn.wallpapersafari.com/55/58/Mt3QVP.gif"),
-                fit: BoxFit.cover,
-              ),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: NetworkImage(
+                  "https://cdn.wallpapersafari.com/55/58/Mt3QVP.gif"),
+              fit: BoxFit.cover,
             ),
-            child:Container(height:MediaQuery.of(context).size.height / 6, child: CircularProgressIndicator(),),
-            );
+          ),
+          child: Container(
+            height: MediaQuery.of(context).size.height / 6,
+            child: CircularProgressIndicator(),
+          ),
+        );
       },
     );
   }
